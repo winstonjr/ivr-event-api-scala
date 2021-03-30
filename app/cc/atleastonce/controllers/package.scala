@@ -17,7 +17,6 @@ package object controllers {
                                          |    "id":{
                                          |      "description":"Idenficador artificial da tabela",
                                          |      "type":"integer",
-                                         |      "format":"uuid"
                                          |    },
                                          |    "assistanceId":{
                                          |      "description":"id para correlacionar com os dados gerais do atendimento",
@@ -83,6 +82,65 @@ package object controllers {
                                          |  ]
                                          |}""".stripMargin
 
-  val startAssistanceValidator = Json.fromJson[SchemaType](Json.parse(startAssistanceJsonSchemaValidator)).get
+  private val interactionsJsonSchemaValidator = """{
+                                                  |  "$schema": "http://json-schema.org/draft-07/schema#",
+                                                  |  "$id": "http://atleastonce.cc/schemas/interactions.schema.json",
+                                                  |  "title": "tabela com o evento de inicio de um atendimento",
+                                                  |  "type": "object",
+                                                  |  "properties": {
+                                                  |    "id": {
+                                                  |      "description": "Idenficador artificial da tabela",
+                                                  |      "type": "integer"
+                                                  |    },
+                                                  |    "startAssistanceId": {
+                                                  |      "description": "Id para correlacionar com os dados gerais do atendimento",
+                                                  |      "type": "integer"
+                                                  |    },
+                                                  |    "eventTypeId": {
+                                                  |      "description": "codigo padrao para o TipoEvento",
+                                                  |      "type": "integer"
+                                                  |    },
+                                                  |    "scriptPoint": {
+                                                  |      "description": "Agrupamento de pontos da conversa com algum significado na jornada",
+                                                  |      "type": "integer"
+                                                  |    },
+                                                  |    "interactionType": {
+                                                  |      "description": "tipo da interacao que esta acontecendo: automacao, chute, pesquisa",
+                                                  |      "type": "string",
+                                                  |      "enum": [
+                                                  |        "Interaction"
+                                                  |      ]
+                                                  |    },
+                                                  |    "interactionTypeId": {
+                                                  |      "description": "ID do tipo da interacao",
+                                                  |      "type": "integer"
+                                                  |    },
+                                                  |    "channelTimestamp": {
+                                                  |      "description": "Hora do inicio do atendimento na plataforma de atendimento",
+                                                  |      "type": "string",
+                                                  |      "format": "date-time"
+                                                  |    },
+                                                  |    "unstructured": {
+                                                  |      "description": "campo para dados relacionados com o evento principal",
+                                                  |      "type": "string"
+                                                  |    },
+                                                  |    "creation": {
+                                                  |      "description": "Data da criacao do registro",
+                                                  |      "type": "string",
+                                                  |      "format": "date-time"
+                                                  |    }
+                                                  |  },
+                                                  |  "additionalProperties": false,
+                                                  |  "required": [
+                                                  |    "startAssistanceId",
+                                                  |    "eventTypeId",
+                                                  |    "scriptPoint",
+                                                  |    "interactionType",
+                                                  |    "interactionTypeId",
+                                                  |    "channelTimestamp"
+                                                  |  ]
+                                                  |}""".stripMargin
 
+  val startAssistanceValidator = Json.fromJson[SchemaType](Json.parse(startAssistanceJsonSchemaValidator)).get
+  val interactionsValidator = Json.fromJson[SchemaType](Json.parse(interactionsJsonSchemaValidator)).get
 }
